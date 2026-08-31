@@ -5,7 +5,7 @@
 
 (def tab-state-schema
   [:map
-   [:background-color ? [:enum :white :red :blue :green]]])
+   [:tab/background-color ? [:enum :white :red :blue :green]]])
 
 (def columns
   {:tab-state/id   {:type :uuid :primary-key true}
@@ -26,7 +26,8 @@
   (= (apply dissoc before fields)
      (apply dissoc after fields)))
 
-(defn authorize-entry [{{:keys [uid]} :session}
+(defn authorize-entry [{{:keys [uid]} :session
+                        :keys         [biff.datastar/tab-id]}
                        {:keys [table op before after]}]
   (case table
     :user
@@ -36,7 +37,8 @@
            :update (only-fields-edited? before after editable-user-fields)
            :delete true))
 
-    :tab-state true
+    :tab-state
+    (every? #{tab-id} (keep :tab-state/id [before after]))
 
     false))
 

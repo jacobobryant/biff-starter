@@ -6,17 +6,14 @@
             [com.biffweb.graph :as biff.graph]
             [com.biffweb.ring :as biff.ring]
             [com.biffweb.sqlite :as biff.sqlite]
-            [com.example.app.admin :as admin]
-            [com.example.app.archive :as archive]
-            [com.example.app.auth :as auth]
-            [com.example.app.landing :as landing]
-            [com.example.app.todos :as todos]
-            [com.example.model.schema :as schema]
-            [com.example.model.tab-state :as model.tab-state]
-            [com.example.model.todo :as model.todo]
+            [com.example.app.admin :as app.admin]
+            [com.example.app.auth :as app.auth]
+            [com.example.app.demo :as app.demo]
+            [com.example.app.landing :as app.landing]
+            [com.example.lib.ui :as lib.ui]
+            [com.example.model.schema :as model.schema]
+            [com.example.model.tab :as model.tab]
             [com.example.model.user :as model.user]))
-
-;; TODO use consistent ns aliases: app.*, model.*
 
 (def modules
   [{:biff.core/init {:biff.ring/on-error #'lib.ui/on-error}}
@@ -28,14 +25,12 @@
    (biff.graph/module)
    (biff.sqlite/module)
    model.user/module
-   model.tab-state/module
-   model.todo/module
-   schema/module
-   admin/module
-   landing/module
-   auth/module
-   archive/module
-   todos/module])
+   model.schema/module
+   model.tab/module
+   app.admin/module
+   app.landing/module
+   app.auth/module
+   app.demo/module])
 
 (def start-order
   [:biff.config/module
