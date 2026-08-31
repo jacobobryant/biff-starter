@@ -14,7 +14,7 @@
                                   :user/email     :email
                                   :user/joined-at :joined-at}))))
 
-(defn- get-usage-events [ctx]
+(defn- get-usage-events [_ctx]
   ;; If you want to monitor usage, return maps from the past 37 days with keys
   ;; :user-id (any) and :instant (Instant).
   [])

@@ -11,6 +11,6 @@
 (defn wrap-redirect-signed-in [handler]
   (fn [{:keys [session] :as ctx}]
     (if (some? (:uid session))
-      {:status 303
+      {:status  303
        :headers {"location" (routes/app)}}
       (handler ctx))))

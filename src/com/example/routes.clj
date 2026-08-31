@@ -3,5 +3,8 @@
 
 (defpath home "/")
 (defpath app "/app")
+(defpath increment-clicks "/app/increment-clicks")
+(defpath set-background-color "/app/background-color")
+(defpath admin "/_biff/admin")
 (defpath signin "/signin")
-(defpath auth-signout "/_biff/auth/signout")
+(defpath signout "/_biff/auth/signout")
