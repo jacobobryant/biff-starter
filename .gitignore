@@ -1,0 +1,12 @@
+*.class
+*.jar
+.calva/
+.clj-kondo/.cache/
+.cpcache/
+.lsp
+.nrepl-port
+.portal/
+/storage/
+/target/
+config.env
+config.prod.env
