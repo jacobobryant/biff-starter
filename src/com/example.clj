@@ -1,6 +1,5 @@
 (ns com.example
-  (:require [clojure.tools.namespace.repl :as tn-repl]
-            [com.biffweb.core :as biff.core]
+  (:require [com.biffweb.core :as biff.core]
             [com.example.modules :refer [modules start-order]]
             [nrepl.cmdline :as nrepl])
   (:gen-class))
@@ -15,12 +14,8 @@
   (reset! system {})
   :stopped)
 
-(defn refresh []
-  (stop)
-  (tn-repl/refresh :after `start)
-  :done)
-
 (defn -main [& _args]
   (let [{:biff.tasks/keys [nrepl-port]} (start)]
+    (.addShutdownHook (Runtime/getRuntime) (Thread. #'stop))
     (nrepl/-main "--port" nrepl-port
                  "--middleware" (pr-str '[cider.nrepl/cider-middleware]))))

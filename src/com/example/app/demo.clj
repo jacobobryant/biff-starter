@@ -92,7 +92,6 @@
                  :do-update-set [:tab-state/data]}]
        :status 204})))
 
-
 (def module
   {:biff.ring/routes
    ["" {:middleware [mid/wrap-signed-in]}
