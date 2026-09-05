@@ -6,9 +6,11 @@
 (defn home [_]
   (ui/page
    {}
-   [:p
-    [:a.text-blue-600.hover:underline {:href (routes/signin)} "Click here"]
-    " to sign in."]))
+   [:main {:class ["grid min-h-full flex-1 grid-rows-[1fr_auto_2fr]"
+                   "justify-items-center"]}
+    [:a {:class ["row-start-2 rounded bg-blue-600 px-4 py-2 text-white"]
+         :href  (routes/signin)}
+     "Click here to sign in."]]))
 
 (def module
   {:biff.ring/routes

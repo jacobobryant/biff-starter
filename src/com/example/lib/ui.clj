@@ -32,7 +32,7 @@
         (merge default-page-opts opts)]
     (html-response
      [chassis/doctype-html5
-      [:html {:lang lang :class '[min-h-full h-auto]}
+      [:html {:lang lang :class ["min-h-full h-auto"]}
        [:head
         [:meta {:charset "utf-8"}]
         [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]
@@ -53,14 +53,16 @@
         [:link {:rel "stylesheet" :href (static-path "/css/main.css")}]
         [:script {:src (static-path "/js/main.js")}]
         [:script {:type "module" :src datastar-script-url}]]
-       [:body (merge {:class '[absolute min-h-full w-full flex flex-col]}
+       [:body (merge {:class ["absolute min-h-full w-full flex flex-col"]}
                      (when init-datastar
                        (biff.datastar/init-opts)))
         contents]]])))
 
 (defn app-page [{:keys [biff.datastar/sse-request] :as ctx}
                 & content]
-  (let [content* [:div#biff-datastar-content content]]
+  (let [content* [:div#biff-datastar-content
+                  {:class ["flex min-h-full flex-1 flex-col"]}
+                  content]]
     (if sse-request
       (html-response content*)
       (page (assoc ctx :ui/init-datastar true) content*))))

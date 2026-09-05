@@ -5,13 +5,12 @@
             [com.biffweb.fx :as biff.fx]
             [com.biffweb.graph :as biff.graph]
             [com.biffweb.ring :as biff.ring]
-            [com.biffweb.sqlite :as biff.sqlite]
             [com.example.app.admin :as app.admin]
             [com.example.app.auth :as app.auth]
             [com.example.app.demo :as app.demo]
             [com.example.app.landing :as app.landing]
             [com.example.lib.ui :as lib.ui]
-            [com.example.model.schema :as model.schema]
+            [com.example.model.sqlite :as model.sqlite]
             [com.example.model.tab :as model.tab]
             [com.example.model.user :as model.user]))
 
@@ -23,9 +22,8 @@
    (biff.background/module)
    (biff.fx/module)
    (biff.graph/module)
-   (biff.sqlite/module)
    model.user/module
-   model.schema/module
+   model.sqlite/module
    model.tab/module
    app.admin/module
    app.landing/module

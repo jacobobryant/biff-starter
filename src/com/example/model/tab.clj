@@ -1,11 +1,16 @@
 (ns com.example.model.tab
-  (:require [com.biffweb.graph :refer [defresolver]]))
+  (:require [com.biffweb.graph :refer [defresolver]]
+            [com.example.schema :as schema]
+            [malli.core :as malli]))
+
+(def tab-state-keys
+  (vec (keys (malli/entries schema/tab-state-schema))))
 
 (def defaults
   {:tab/background-color :white})
 
 (defresolver tab-state
-  {:output [{:request/tab [:tab/background-color]}]}
+  {:output [{:request/tab tab-state-keys}]}
 
   (fn [{:keys [biff.datastar/tab-id]} _]
     (when tab-id

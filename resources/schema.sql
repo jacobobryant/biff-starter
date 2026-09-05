@@ -17,7 +17,7 @@ CREATE TABLE user (
   id BLOB PRIMARY KEY NOT NULL,
   email TEXT NOT NULL,
   joined_at INT NOT NULL,
-  n_clicks INT,
+  display_name TEXT,
   UNIQUE(email)
 ) STRICT;
 

@@ -1,5 +1,4 @@
-(ns com.example.model.schema
-  (:require [com.biffweb.sqlite :as biff.sqlite]))
+(ns com.example.schema)
 
 (def ? {:optional true})
 
@@ -11,16 +10,16 @@
   {:tab-state/id   {:type :uuid :primary-key true}
    :tab-state/data {:type :edn :extra-schema tab-state-schema}
 
-   :user/id        {:type :uuid :primary-key true}
-   :user/email     {:type :text :required true :unique true}
-   :user/joined-at {:type :inst :required true :index true}
-   :user/n-clicks  {:type :int}})
+   :user/id           {:type :uuid :primary-key true}
+   :user/email        {:type :text :required true :unique true}
+   :user/joined-at    {:type :inst :required true :index true}
+   :user/display-name {:type :text}})
 
 ;; Strings added here will be appended to resources/schema.sql
 (def extra-init-sql [])
 
 ;; Add new columns here that you want users to be able to edit (e.g. settings).
-(def editable-user-fields [:user/n-clicks])
+(def editable-user-fields [:user/display-name])
 
 (defn only-fields-edited? [before after fields]
   (= (apply dissoc before fields)
@@ -47,9 +46,3 @@
 (defn authorize
   [ctx diff]
   (every? #(authorize-entry ctx %) diff))
-
-(def module
-  (biff.sqlite/schema-module
-   {:biff.sqlite/extra-init-sql extra-init-sql
-    :biff.sqlite/authorize      #'authorize
-    :biff.sqlite/columns        columns}))
