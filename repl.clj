@@ -17,6 +17,4 @@
   ;; Only needed if you change code that only runs at startup.
   (refresh)
 
-  (execute (get-ctx) "select * from user")
-
-  )
+  (execute (get-ctx) "select * from user"))
