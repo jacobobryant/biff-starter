@@ -14,7 +14,8 @@
 
 (comment
 
-  ;; Only needed if you change code that only runs at startup.
+  ;; Most changes will be evaluated whenver you save a file. (refresh) is only
+  ;; needed if you change code that only runs at startup, like database schema.
   (refresh)
 
   (execute (get-ctx) "select * from user"))
