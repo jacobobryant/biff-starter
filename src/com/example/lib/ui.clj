@@ -68,9 +68,10 @@
       (page (assoc ctx :ui/init-datastar true) content*))))
 
 (defn on-error [{:keys [status] :as ctx}]
-  (page
-   ctx
-   [:h1
-    (if (= status 404)
-      "Page not found."
-      "Something went wrong.")]))
+  (-> (page
+       ctx
+       [:h1
+        (if (= status 404)
+          "Page not found."
+          "Something went wrong.")])
+      (assoc :status status)))
