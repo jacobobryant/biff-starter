@@ -1,10 +1,14 @@
 (ns com.example
   (:require [com.biffweb.core :as biff.core]
+            [com.biffweb.datastar :refer [disconnect]]
             [com.example.modules :refer [modules start-order]]
             [nrepl.cmdline :as nrepl])
   (:gen-class))
 
 (defonce system (atom {}))
+
+;; Causes clients to restart their SSE connections after files are evaluated.
+(disconnect @system)
 
 (defn start []
   (reset! system (biff.core/start #'modules start-order)))
