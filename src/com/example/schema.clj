@@ -1,19 +1,18 @@
-(ns com.example.schema)
-
-(def ? {:optional true})
+(ns com.example.schema
+  (:require [com.biffweb.sqlite.schema :as s :refer [?]]))
 
 (def tab-state-schema
   [:map
    [:tab/background-color ? [:enum :white :red :blue :green]]])
 
 (def columns
-  {:tab-state/id   {:type :uuid :primary-key true}
-   :tab-state/data {:type :edn :extra-schema tab-state-schema}
+  {:tab-state/id   s/pkey
+   :tab-state/data (s/edn tab-state-schema)
 
-   :user/id           {:type :uuid :primary-key true}
-   :user/email        {:type :text :required true :unique true}
-   :user/joined-at    {:type :inst :required true :index true}
-   :user/display-name {:type :text}})
+   :user/id           s/pkey
+   :user/email        (s/text :required :unique)
+   :user/joined-at    (s/inst :required :index)
+   :user/display-name (s/text)})
 
 ;; Strings added here will be appended to resources/schema.sql
 (def extra-init-sql [])
