@@ -1,6 +1,7 @@
 (ns com.example
   (:require [com.biffweb.core :as biff.core]
             [com.biffweb.datastar :refer [disconnect]]
+            [com.biffweb.graph :as biff.graph]
             [com.example.modules :refer [modules start-order]]
             [nrepl.cmdline :as nrepl])
   (:gen-class))
@@ -11,7 +12,8 @@
 (disconnect @system)
 
 (defn start []
-  (reset! system (biff.core/start #'modules start-order)))
+  (reset! system (biff.core/start #'modules start-order))
+  (spit "graph.mmd" (biff.graph/uml @system)))
 
 (defn stop []
   (biff.core/stop @system)
