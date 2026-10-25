@@ -10,9 +10,10 @@
             [com.example.app.demo :as app.demo]
             [com.example.app.landing :as app.landing]
             [com.example.lib.ui :as lib.ui]
-            [com.example.model.sqlite :as model.sqlite]
-            [com.example.model.tab :as model.tab]
-            [com.example.model.user :as model.user]))
+            [com.example.model.global :as model.global]
+            [com.example.model.request :as model.request]
+            [com.example.model.session :as model.session]
+            [com.example.model.sqlite :as model.sqlite]))
 
 (def modules
   [{:biff.core/init {:biff.ring/on-error #'lib.ui/on-error}}
@@ -22,9 +23,10 @@
    (biff.background/module)
    (biff.fx/module)
    (biff.graph/module)
-   model.user/module
+   model.global/module
+   model.request/module
+   model.session/module
    model.sqlite/module
-   model.tab/module
    app.admin/module
    app.landing/module
    app.auth/module

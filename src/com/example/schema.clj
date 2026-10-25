@@ -24,19 +24,22 @@
   (= (apply dissoc before fields)
      (apply dissoc after fields)))
 
+(defn owned-by? [uid owner-key records]
+  (every? #(= uid (owner-key %)) (filterv some? records)))
+
 (defn authorize-entry [{{:keys [uid]} :session
                         :keys         [biff.datastar/tab-id]}
                        {:keys [table op before after]}]
   (case table
     :user
-    (and (every? #{uid} (keep :user/id [before after]))
+    (and (owned-by? uid :user/id [before after])
          (case op
            :create false
            :update (only-fields-edited? before after editable-user-fields)
            :delete true))
 
     :tab-state
-    (every? #{tab-id} (keep :tab-state/id [before after]))
+    (owned-by? tab-id :tab-state/id [before after])
 
     false))
 

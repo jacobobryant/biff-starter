@@ -6,6 +6,8 @@
             [com.example.lib.ui :as ui]
             [com.example.routes :as routes]))
 
+(defpath admin-path "/_biff/admin")
+(defpath signout-path "/_biff/auth/signout")
 (defpath set-display-name-path "/app/display-name")
 (defpath set-background-color-path "/app/background-color")
 
@@ -22,23 +24,22 @@
 
 (defpipeline demo-page
   [:biff.graph.fx/query
-   [{:session/user [[:? :user/display-name]]}
+   [{:session/user [:?user/display-name]}
     {:request/tab [:tab/background-color]}]]
 
   (fn [request {:keys [session/user request/tab]}]
     (let [{:user/keys [display-name]}    user
-          {:tab/keys [background-color]} tab]
+          {:tab/keys [background-color]} tab
+          signals                        (biff.datastar/signals-json
+                                          {:user/display-name    (or display-name "")
+                                           :tab/background-color background-color})]
       (ui/app-page
        request
-       [:main {:id    "demo-page"
-               :class ["grid flex-1 grid-rows-[1fr_auto_2fr]"
-                       "justify-items-center p-8"
-                       (background-class background-color)]
-
-               :data-signals__ifmissing
-               (biff.datastar/signals-json
-                {:user/display-name    (or display-name "")
-                 :tab/background-color background-color})}
+       [:main {:id                      "demo-page"
+               :class                   ["grid flex-1 grid-rows-[1fr_auto_2fr]"
+                                         "justify-items-center p-8"
+                                         (background-class background-color)]
+               :data-signals__ifmissing signals}
         [:div {:class ["row-start-2 flex flex-col items-center gap-4"]}
          [:h1 {:class ["text-2xl font-semibold"]}
           (if (seq display-name)
@@ -62,11 +63,12 @@
                     :data-bind      (signal-name :tab/background-color)
                     :data-action    (set-background-color-path)
                     :data-on:change "@post(el.dataset.action)"}
-           (for [color background-colors]
-             [:option {:value (name color)} (name color)])]]
-         [:a {:class ["text-blue-600 hover:underline"] :href (routes/admin)}
+           (mapv (fn [color]
+                   [:option {:value (name color)} (name color)])
+                 background-colors)]]
+         [:a {:class ["text-blue-600 hover:underline"] :href (admin-path)}
           "Admin dashboard"]
-         [:form {:method "post" :action (routes/signout)}
+         [:form {:method "post" :action (signout-path)}
           [:button {:class ["text-blue-600 hover:underline"] :type "submit"}
            "Sign out"]]]]))))
 

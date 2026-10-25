@@ -6,13 +6,10 @@
 
 (defpipeline get-user-id
   (fn [_ctx email]
-    [:biff.sqlite.fx/execute
-     {:select [:user/id]
-      :from   :user
-      :where  [:= :user/email email]}])
+    [:biff.graph.fx/query {:user/email email} [:?user/id]])
 
-  (fn [_ctx result]
-    (-> result first :user/id)))
+  (fn [_ctx {:user/keys [id]}]
+    id))
 
 (defpipeline create-user
   (fn [{:biff.fx/keys [now random-uuid7-seq]} {:keys [email]}]

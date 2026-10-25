@@ -1,7 +1,10 @@
 (ns com.example.app.landing
-  (:require [com.example.lib.middleware :as mid]
+  (:require [com.biffweb.ring :refer [defpath]]
+            [com.example.lib.middleware :as mid]
             [com.example.lib.ui :as ui]
             [com.example.routes :as routes]))
+
+(defpath home-path "/")
 
 (defn home [_]
   (ui/page
@@ -15,4 +18,4 @@
 (def module
   {:biff.ring/routes
    ["" {:middleware [mid/wrap-redirect-signed-in]}
-    [(routes/home) {:get home}]]})
+    [(home-path) {:get home}]]})

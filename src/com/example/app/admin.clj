@@ -1,18 +1,17 @@
 (ns com.example.app.admin
   (:require [clojure.set :as set]
             [com.biffweb.admin :as biff.admin]
-            [com.biffweb.sqlite :as biff.sqlite]
+            [com.biffweb.fx :refer [defpipeline]]
             [com.example.lib.email :as lib.email]))
 
-(defn- get-users [ctx]
-  (->> (biff.sqlite/execute ctx {:select   [:user/id
-                                            :user/email
-                                            :user/joined-at]
-                                 :from     :user
-                                 :order-by [[:user/joined-at :desc]]})
-       (mapv #(set/rename-keys % {:user/id        :user-id
-                                  :user/email     :email
-                                  :user/joined-at :joined-at}))))
+(defpipeline get-users
+  [:biff.graph.fx/query [{:global/users [:user/id :user/email :user/joined-at]}]]
+
+  (fn [_ctx {:global/keys [users]}]
+    (mapv #(set/rename-keys % {:user/id        :user-id
+                               :user/email     :email
+                               :user/joined-at :joined-at})
+          users)))
 
 (defn- get-usage-events [_ctx]
   ;; If you want to monitor usage, return maps from the past 37 days with keys
